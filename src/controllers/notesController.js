@@ -1,18 +1,18 @@
 import {Note} from '../models/note.js';
 import createHttpError from "http-errors";
 
-// Отримати список усіх студентів
-export const getNotes = async (req, res) => {
+
+export const getAllNotes = async (req, res) => {
     const notes = await Note.find();
     res.status(200).json(notes);
 };
 
-// Отримати одного студента за id
-export const getNoteById = async (req, res) => {
-    const {NoteId} = req.params;
-    const note = await Note.findById(NoteId);
 
-    if (!Note) {
+export const getNoteById = async (req, res) => {
+    const {noteId} = req.params;
+    const note = await Note.findById(noteId);
+
+    if (!note) {
         throw createHttpError(404, 'Note not found');
     }
 
@@ -26,8 +26,8 @@ export const createNote = async (req, res) => {
 };
 
 export const deleteNote = async (req, res) => {
-    const {NoteId} = req.params;
-    const note = await Note.findOneAndDelete({_id: NoteId});
+    const {noteId} = req.params;
+    const note = await Note.findOneAndDelete({_id: noteId});
     if (!note) {
         throw createHttpError(404, "Note not found");
     }
@@ -35,8 +35,8 @@ export const deleteNote = async (req, res) => {
 };
 
 export const updateNote = async (req, res) => {
-    const {NoteId} = req.params;
-    const note = await Note.findOneAndUpdate({_id: NoteId}, req.body, {returnDocument: "after"});
+    const {noteId} = req.params;
+    const note = await Note.findOneAndUpdate({_id: noteId}, req.body, {returnDocument: "after"});
     if (!note) {
         throw createHttpError(404, "Note not found");
     }
