@@ -1,4 +1,3 @@
-// src/server.js
 import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
@@ -37,49 +36,31 @@ app.use((err, req, res, next) => {
             : err.message,
     });
 });
-// Логування часу
-app.use((req, res, next) => {
-    console.log(`Time: ${new Date().toLocaleString()}`);
-    next();
-});
-// Перший маршрут
-app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Hello world!' });
-});
-// Список усіх користувачів
-app.get('/users', (req, res) => {
-    res.status(200).json([{ id: 1, name: 'Alice' }]);
+
+app.get('/notes', (req, res) => {
+    res.status(200).json({ message: "Retrieved all notes"});
 });
 
-app.post('/users', (req, res) => {
-    console.log(req.body); // тепер тіло доступне як JS-об’єкт
-    res.status(201).json({ message: 'User created' });
-});
-
-// Конкретний користувач за id
-app.get('/users/:userId', (req, res) => {
-    const { userId } = req.params;
-    res.status(200).json({ id: userId, name: 'Jacob' });
+app.get('/notes/:noteId', (req, res) => {
+    const { noteId } = req.params;
+    res.status(200).json({ message: `Retrieved note with ID: ${noteId}` });
 });
 
 app.get('/test-error', (req, res) => {
-    // Штучна помилка для прикладу
-    throw new Error('Something went wrong');
+    throw new Error('Simulated server error');
 });
+
 app.use((req, res) => {
     res.status(404).json({ message: 'Route not found' });
 });
+
 app.use((err, req, res, next) => {
     console.error('Error:', err.message);
     res.status(500).json({
-        message: 'Internal Server Error',
-        error: err.message,
+        message: err.message
     });
 });
 
-
-
-// Запуск сервера
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
