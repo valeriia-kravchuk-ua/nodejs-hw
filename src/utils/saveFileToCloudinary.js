@@ -20,10 +20,10 @@ export const saveFileToCloudinary = async (buffer, userId) => {
         ]
     };
 
-    return new Promise((res, rej) => {
-        const uploadStream = cloudinary.uploader.upload_stream({}, (error, result) => {
+    return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(options, (error, result) => {
             if (error) {
-                return rej(error)
+                return reject(error)
             }
             resolve(result)
         })

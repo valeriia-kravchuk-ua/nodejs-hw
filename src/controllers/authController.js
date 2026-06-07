@@ -3,7 +3,7 @@ import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
 import {Session} from "../models/session.js";
 import {createSession, setSessionCookies} from "../services/auth.js";
-import {sendMail} from "../utils/sendMail.js";
+import {sendEmail} from "../utils/sendMail.js";
 import jwt from 'jsonwebtoken'
 import handlebars from "handlebars";
 import fs from "node:fs/promises";
@@ -117,7 +117,7 @@ export const requestResetEmail = async (req, res) => {
 
 
     try {
-        await sendMail({
+        await sendEmail({
             from: process.env.SMTP_FROM,
             to: req.body.email,
             subject: "Reset your password",
